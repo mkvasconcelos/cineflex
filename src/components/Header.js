@@ -10,7 +10,6 @@ export default function Header() {
 }
 
 const Container = styled.div`
-    max-width: 375px;
     height: 67px;
     background: #C3CFD9;
     color: #E8833A;

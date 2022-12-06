@@ -10,7 +10,6 @@ export default function SubHeader({ text }) {
 }
 
 const Container = styled.div`
-    max-width: 375px;
     height: 110px;
     color: #293845;
     font-size: 24px;
