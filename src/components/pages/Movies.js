@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Movies() {
-    const [listMovies, setListMovies] = useState([]);
-    useEffect(() => {
-        const res = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
-        res.then(res => setListMovies(res.data))
-        res.catch(err => console.log(err.res.data))
-    }, []);
+export default function Movies({ listMovies, setChosenMovie }) {
     return (
         <Container>
-            {listMovies.map(i => <img src={i.posterURL} key={i.id} alt={i.title}></img>)}
+            {listMovies.map(i => <Link to="/sessions" onClick={() => setChosenMovie(i.id)}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
         </Container>
     )
 }
