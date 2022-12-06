@@ -5,22 +5,13 @@ import styled from "styled-components";
 export default function Movies() {
     const [listMovies, setListMovies] = useState([]);
     useEffect(() => {
-        async function getMovies() {
-            const url = 'https://mock-api.driven.com.br/api/v8/cineflex/movies';
-            try {
-                const res = await axios.get(url);
-                console.log(res.data);
-                setListMovies(res.data);
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getMovies();
-    }, []
-    )
+        const res = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
+        res.then(res => setListMovies(res.data))
+        res.catch(err => console.log(err.res.data))
+    }, []);
     return (
         <Container>
-            {listMovies.map(i => <img src={i.posterURL} key={i.id}></img>)}
+            {listMovies.map(i => <img src={i.posterURL} key={i.id} alt={i.title}></img>)}
         </Container>
     )
 }
