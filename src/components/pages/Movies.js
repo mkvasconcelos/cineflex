@@ -5,7 +5,7 @@ import styled from "styled-components";
 export default function Movies({ listMovies, setChosenMovie }) {
     return (
         <Container>
-            {listMovies.map(i => <Link to="/sessions" onClick={() => setChosenMovie(i.id)}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
+            {listMovies.map(i => <Link to="/sessions" key={i.id} onClick={() => setChosenMovie(i.id)}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
         </Container>
     )
 }
