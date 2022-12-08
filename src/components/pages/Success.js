@@ -22,7 +22,7 @@ export default function Success({ setChosenMovie, setChosenDay, setChosenSession
             <div>
                 <h1>Comprador</h1>
                 <p>Nome: {buyer}</p>
-                <p>CPF: {document}</p>
+                <p>CPF: {document.slice(0, 3) + "." + document.slice(3, 6) + "." + document.slice(6, 9) + "-" + document.slice(9, 11)}</p>
             </div>
             <ContainerLink to="/" onClick={() => { setChosenMovie(''); setChosenDay(''); setChosenSession(''); setChosenSeats([]); setBuyer(''); setDocument('') }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
