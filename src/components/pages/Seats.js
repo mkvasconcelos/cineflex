@@ -11,7 +11,7 @@ export default function Seats({ setSuccess, choice, setChoice }) {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
         res.catch(err => console.log(err.res.data))
-    }, []);
+    }, [idSessao]);
     function getSeats(seat, available) {
         if (!available) { alert("Esse assento não está disponível"); return };
         if (choice.seats.includes(seat)) {
@@ -37,7 +37,7 @@ export default function Seats({ setSuccess, choice, setChoice }) {
             cpf: choice.document
         }
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
-        res.then(res => { console.log(res.data); setSuccess(true) })
+        res.then(res => { setSuccess(true) })
         res.catch(err => console.log(err.res.data))
     }
     if (listSeats.length === 0) {

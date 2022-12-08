@@ -17,7 +17,7 @@ export default function Success({ setChoice, choice, success }) {
             </div>
             <div>
                 <h1>Ingressos</h1>
-                {choice.seats.map(s => <p>Assento {s}</p>)}
+                {choice.seats.map(s => <p key={s}>Assento {s}</p>)}
             </div>
             <div>
                 <h1>Comprador</h1>

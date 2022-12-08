@@ -10,7 +10,7 @@ export default function Sessions({ setChoice }) {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
         res.then(res => setListSessions(res.data.days))
         res.catch(err => console.log(err.res.data))
-    }, []);
+    }, [idFilme]);
 
     if (listSessions.length === 0) {
         return <p>Loading...</p>;
@@ -21,7 +21,7 @@ export default function Sessions({ setChoice }) {
                 <ContainerSession key={s.id}>
                     <p>{s.weekday} - {s.date}</p>
                     <div>
-                        {s.showtimes.map(t => <Link to={`/assentos/${t.id}`}><button key={t.id} onClick={() => {
+                        {s.showtimes.map(t => <Link key={t.id} to={`/assentos/${t.id}`}><button onClick={() => {
                             setChoice(existingValues => ({ ...existingValues, day: s, session: t }))
                         }}>{t.name}</button></Link>)}
                     </div>
