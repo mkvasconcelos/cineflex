@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats }) {
+export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats, buyer, document }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
@@ -29,11 +29,9 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
             setListSelected(newListSelected);
         }
     }
-
     if (listSeats.length === 0) {
         return <p>Loading...</p>;
     }
-
     return (
         <Container >
             <div>
@@ -59,9 +57,10 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
                 <p>Nome do comprador:</p>
                 <input onChange={(e) => setBuyer(e.target.value)} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
-                <input onChange={(e) => setDocument(e.target.value)} placeholder="Digite seu CPF..."></input>
+                <input onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setDocument(e.target.value)} placeholder="Digite seu CPF..."></input>
             </ContainerInputs>
-            <LinkReserve to="/sucesso"><ContainerButton>Reservar assento(s)</ContainerButton></LinkReserve>
+            <LinkReserve to="/sucesso"><ContainerButton disabled={((buyer === '' || document.length !== 11 || chosenSeats.length === 0) && true)
+            }>Reservar assento(s)</ContainerButton></LinkReserve>
         </Container >
     )
 }

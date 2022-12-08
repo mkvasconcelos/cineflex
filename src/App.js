@@ -26,7 +26,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Movies setChosenMovie={setChosenMovie} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions setChosenDay={setChosenDay} setChosenSession={setChosenSession} />} />
-          <Route path="/assentos/:idSessao" element={<Seats setBuyer={setBuyer} setDocument={setDocument} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} />} />
+          <Route path="/assentos/:idSessao" element={<Seats buyer={buyer} setBuyer={setBuyer} document={document} setDocument={setDocument} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} />} />
           <Route path="/sucesso" element={<Success setChosenMovie={setChosenMovie} chosenMovie={chosenMovie} setChosenDay={setChosenDay} chosenDay={chosenDay} setChosenSession={setChosenSession} chosenSession={chosenSession} setChosenSeats={setChosenSeats} chosenSeats={chosenSeats} setBuyer={setBuyer} buyer={buyer} setDocument={setDocument} document={document} />} />
         </Routes>
         <Footer chosenMovie={chosenMovie} chosenDay={chosenDay} chosenSession={chosenSession} chosenSeats={chosenSeats} />

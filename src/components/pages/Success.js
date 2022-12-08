@@ -7,12 +7,13 @@ export default function Success({ setChosenMovie, setChosenDay, setChosenSession
     if (chosenSeats.length === 0) {
         return <p>Loading...</p>;
     }
+
     return (
         <Container >
             <div>
                 <h1>Filme e sessão</h1>
                 <p>{title}</p>
-                <p>{chosenDay.weekday} {chosenSession.name}</p>
+                <p>{chosenDay.date} {chosenSession.name}</p>
             </div>
             <div>
                 <h1>Ingressos</h1>
@@ -20,8 +21,8 @@ export default function Success({ setChosenMovie, setChosenDay, setChosenSession
             </div>
             <div>
                 <h1>Comprador</h1>
-                <p>{buyer}</p>
-                <p>{document}</p>
+                <p>Nome: {buyer}</p>
+                <p>CPF: {document}</p>
             </div>
             <ContainerLink to="/" onClick={() => { setChosenMovie(''); setChosenDay(''); setChosenSession(''); setChosenSeats([]); setBuyer(''); setDocument('') }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
