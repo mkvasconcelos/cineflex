@@ -1,8 +1,10 @@
 import React from "react";
 import styled from 'styled-components'
+import { useLocation } from "react-router-dom";
 
-export default function Footer({ chosenMovie, chosenDay, chosenSession }) {
-    if (chosenMovie === "") return;
+export default function Footer({ chosenMovie, chosenDay, chosenSession, chosenSeats }) {
+    const location = useLocation();
+    if (location.pathname === "/" || location.pathname.includes("/sucesso")) return;
     const session = chosenDay === "" ? "" : `${chosenDay.weekday} - ${chosenSession.name}`;
     const { posterURL, title } = chosenMovie;
     return (

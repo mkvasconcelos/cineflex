@@ -3,16 +3,32 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-export default function Sessions() {
+export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
-
     useEffect(() => {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
         res.catch(err => console.log(err.res.data))
     }, []);
+    function getSeats(seat, available) {
+        if (!available) { alert("Esse assento não está disponível"); return };
+        if (chosenSeats.includes(seat)) {
+            const newChosenSeats = [...chosenSeats]
+            newChosenSeats.splice(chosenSeats.indexOf(seat), 1);
+            setChosenSeats(newChosenSeats);
+            const newListSelected = [...listSelected];
+            newListSelected[seat - 1] = false;
+            setListSelected(newListSelected);
+        } else {
+            const newChosenSeats = [...chosenSeats, seat];
+            setChosenSeats(newChosenSeats);
+            const newListSelected = [...listSelected];
+            newListSelected[seat - 1] = true;
+            setListSelected(newListSelected);
+        }
+    }
 
     if (listSeats.length === 0) {
         return <p>Loading...</p>;
@@ -21,11 +37,9 @@ export default function Sessions() {
     return (
         <Container >
             <div>
-                {listSeats.seats.map(s => <Seats key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
-                    const newListSelected = [...listSelected];
-                    newListSelected[s.name - 1] = (newListSelected[s.name - 1] ? false : true);
-                    setListSelected(newListSelected);
-                }} disabled={!s.isAvailable}>{s.name}</Seats>)}
+                {listSeats.seats.map(s => <ContainerSeats key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
+                    getSeats(s.name, s.isAvailable)
+                }}>{s.name}</ContainerSeats>)}
             </div>
             <ContainerButtons>
                 <div>
@@ -43,11 +57,11 @@ export default function Sessions() {
             </ContainerButtons>
             <ContainerInputs>
                 <p>Nome do comprador:</p>
-                <input placeholder="Digite seu nome..."></input>
+                <input onChange={(e) => setBuyer(e.target.value)} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
-                <input placeholder="Digite seu CPF..."></input>
+                <input onChange={(e) => setDocument(e.target.value)} placeholder="Digite seu CPF..."></input>
             </ContainerInputs>
-            <Link to="/success"><ReserveButton>Reservar assento(s)</ReserveButton></Link>
+            <LinkReserve to="/sucesso"><ContainerButton>Reservar assento(s)</ContainerButton></LinkReserve>
         </Container >
     )
 }
@@ -57,7 +71,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    button{
+    div button{
         width: 26px;
         height: 26px;
         justify-content: center;
@@ -69,7 +83,7 @@ const Container = styled.div`
         margin: 9px 3.5px 9px 3.5px;
     }
 `
-const Seats = styled.button`
+const ContainerSeats = styled.button`
     background: ${props => props.available ? '#C3CFD9' : '#FBE192'};
     background: ${props => props.selected && '#1AAE9E'};
     border: ${props => props.available ? '1px solid #808F9D' : '1px solid #F7C52B'};
@@ -135,8 +149,10 @@ const ContainerInputs = styled.div`
     }
 `
 
-const ReserveButton = styled.div`
+const ContainerButton = styled.button`
     background: #E8833A;
+    border: none;
+    text-decoration: none;
     border-radius: 3px;
     margin: auto auto 30px auto;
     width: 225px;
@@ -147,4 +163,8 @@ const ReserveButton = styled.div`
     justify-content: center;
     align-items: center;
     color:#FFFFFF;
+`
+
+const LinkReserve = styled(Link)`
+    text-decoration: none;
 `
