@@ -6,10 +6,11 @@ import axios from "axios";
 export default function Sessions() {
     const { sessionId } = useParams();
     const [listSeats, setListSeats] = useState([]);
+    const [listSelected, setListSelected] = useState([]);
 
     useEffect(() => {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${sessionId}/seats`);
-        res.then(res => setListSeats(res.data))
+        res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
         res.catch(err => console.log(err.res.data))
     }, []);
 
@@ -20,7 +21,11 @@ export default function Sessions() {
     return (
         <Container >
             <div>
-                {listSeats.seats.map(s => <Seats key={s.id} available={s.isAvailable} onClick={() => 'selected'} disabled={!s.isAvailable}>{s.name}</Seats>)}
+                {listSeats.seats.map(s => <Seats key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
+                    const newListSelected = [...listSelected];
+                    newListSelected[s.name - 1] = true;
+                    setListSelected(newListSelected);
+                }} disabled={!s.isAvailable}>{s.name}</Seats>)}
             </div>
             <ContainerButtons>
                 <div>
@@ -66,9 +71,9 @@ const Container = styled.div`
 `
 const Seats = styled.button`
     background: ${props => props.available ? '#C3CFD9' : '#FBE192'};
-    background: ${props => props.available === 'selected' && '1AAE9E'};
+    background: ${props => props.selected && '#1AAE9E'};
     border: ${props => props.available ? '1px solid #808F9D' : '1px solid #F7C52B'};
-    border: ${props => props.available === 'selected' && '1px solid #F7C52B'};
+    border: ${props => props.selected && '1px solid #0E7D71'};
 `
 
 const ContainerButtons = styled.div`
