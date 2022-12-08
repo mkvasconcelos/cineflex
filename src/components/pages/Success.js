@@ -5,7 +5,7 @@ import { ContainerButton, ContainerLink } from "./StyledComponents";
 export default function Success({ setChoice, choice }) {
     const { title } = choice.movie;
     if (!choice.success) {
-        return <p>Loading...</p>;
+        return <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="loading-gif"></img>
     }
 
     return (

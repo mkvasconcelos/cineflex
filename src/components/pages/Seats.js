@@ -41,7 +41,7 @@ export default function Seats({ choice, setChoice }) {
         res.catch(err => console.log(err.res.data))
     }
     if (listSeats.length === 0) {
-        return <p>Loading...</p>;
+        return <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="loading-gif"></img>
     }
     return (
         <Container >
