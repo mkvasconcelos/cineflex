@@ -21,8 +21,8 @@ export default function App() {
         <SubHeader text={chosenMovie === "" ? "Selecione o filme" : chosenDay === "" ? "Selecione o horário" : "Selecione o(s) assento(s)"} />
         <Routes>
           <Route path="/" element={<Movies setChosenMovie={setChosenMovie} />} />
-          <Route path="/sessions/:movieId" element={<Sessions setChosenDay={setChosenDay} setChosenSession={setChosenSession} />} />
-          <Route path="/seats/:sessionId" element={<Seats />} />
+          <Route path="/sessoes/:idFilme" element={<Sessions setChosenDay={setChosenDay} setChosenSession={setChosenSession} />} />
+          <Route path="/assentos/:idSessao" element={<Seats />} />
         </Routes>
         <Footer chosenMovie={chosenMovie} chosenDay={chosenDay} chosenSession={chosenSession} />
       </BrowserRouter>

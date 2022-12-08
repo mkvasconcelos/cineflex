@@ -4,10 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Sessions({ setChosenDay, setChosenSession }) {
-    const { movieId } = useParams();
+    const { idFilme } = useParams();
     const [listSessions, setListSessions] = useState([]);
     useEffect(() => {
-        const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${movieId}/showtimes`);
+        const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
         res.then(res => setListSessions(res.data.days))
         res.catch(err => console.log(err.res.data))
     }, []);
@@ -21,10 +21,9 @@ export default function Sessions({ setChosenDay, setChosenSession }) {
                 <ContainerSession key={s.id}>
                     <p>{s.weekday} - {s.date}</p>
                     <div>
-                        {s.showtimes.map(t => <Link to={`/seats/${t.id}`}><button key={t.id} onClick={() => { setChosenDay(s); setChosenSession(t) }}>{t.name}</button></Link>)}
+                        {s.showtimes.map(t => <Link to={`/assentos/${t.id}`}><button key={t.id} onClick={() => { setChosenDay(s); setChosenSession(t) }}>{t.name}</button></Link>)}
                     </div>
                 </ContainerSession>)}
-            <Link to="/">Movies</Link>
         </Container>
     )
 }

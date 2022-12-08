@@ -4,12 +4,12 @@ import styled from "styled-components";
 import axios from "axios";
 
 export default function Sessions() {
-    const { sessionId } = useParams();
+    const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
 
     useEffect(() => {
-        const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${sessionId}/seats`);
+        const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
         res.catch(err => console.log(err.res.data))
     }, []);
@@ -23,7 +23,7 @@ export default function Sessions() {
             <div>
                 {listSeats.seats.map(s => <Seats key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
                     const newListSelected = [...listSelected];
-                    newListSelected[s.name - 1] = true;
+                    newListSelected[s.name - 1] = (newListSelected[s.name - 1] ? false : true);
                     setListSelected(newListSelected);
                 }} disabled={!s.isAvailable}>{s.name}</Seats>)}
             </div>
@@ -111,15 +111,16 @@ const ContainerButtons = styled.div`
 const ContainerInputs = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 50px 23px;
+    margin: 50px 0px;
     color: #293845;
     font-size: 18px;
+    width: 100%;
 
     input{
         background: #FFFFFF;
         border: 1px solid #D5D5D5;
         border-radius: 3px;
-        width: 327px;
+        width: 100%;
         height: 51px;
         margin-bottom: 7px;
         font-size: 18px;

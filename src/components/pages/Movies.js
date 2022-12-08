@@ -16,7 +16,7 @@ export default function Movies({ setChosenMovie }) {
     }
     return (
         <Container>
-            {listMovies.map(i => <Link to={`/sessions/${i.id}`} key={i.id} onClick={() => { setChosenMovie(i) }}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
+            {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => { setChosenMovie(i) }}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
         </Container>
     )
 }
