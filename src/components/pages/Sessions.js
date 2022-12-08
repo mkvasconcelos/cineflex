@@ -21,7 +21,7 @@ export default function Sessions({ setChosenDay, setChosenSession }) {
                 <ContainerSession key={s.id}>
                     <p>{s.weekday} - {s.date}</p>
                     <div>
-                        {s.showtimes.map(t => <Link to={`/seats/${t.id}`}><button key={t.id} onClick={() => { setChosenDay(s); setChosenSession(t); console.log(t) }}>{t.name}</button></Link>)}
+                        {s.showtimes.map(t => <Link to={`/seats/${t.id}`}><button key={t.id} onClick={() => { setChosenDay(s); setChosenSession(t) }}>{t.name}</button></Link>)}
                     </div>
                 </ContainerSession>)}
             <Link to="/">Movies</Link>
