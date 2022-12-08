@@ -10,13 +10,13 @@ import Success from "./components/pages/Success";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false });
+  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: [], document: [], success: false });
 
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Header />
+        <Header setChoice={setChoice} />
         <SubHeader />
         <Routes>
           <Route path="/" element={<Movies setChoice={setChoice} />} />

@@ -28,7 +28,7 @@ const Container = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 20px 0 10px;
+    margin: 0px 20px 0 10px;
     div{
         width: 145px;
         height: 209px;

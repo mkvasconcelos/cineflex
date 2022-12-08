@@ -65,10 +65,14 @@ export default function Seats({ choice, setChoice }) {
                 </div>
             </ContainerButtons>
             <ContainerInputs>
+                {/* {choice.seats.map(s =>
+                    <div key={s}> */}
                 <p>Nome do comprador:</p>
                 <input data-test="client-name" onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
                 <input data-test="client-cpf" onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
+                {/* </div>
+                )} */}
             </ContainerInputs>
             <ContainerLink to="/sucesso"><ContainerButton data-test="book-seat-btn" onClick={() => reserveSeats()} disabled={((choice.buyer === '' || choice.document.length !== 11 || choice.seats.length === 0) && true)
             }>Reservar assento(s)</ContainerButton></ContainerLink>
