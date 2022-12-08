@@ -10,8 +10,7 @@ import Success from "./components/pages/Success";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const [success, setSuccess] = useState(false);
-  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: "", document: "" });
+  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false });
 
   return (
     <>
@@ -22,8 +21,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Movies setChoice={setChoice} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions setChoice={setChoice} />} />
-          <Route path="/assentos/:idSessao" element={<Seats choice={choice} setChoice={setChoice} setSuccess={setSuccess} />} />
-          <Route path="/sucesso" element={<Success setChoice={setChoice} choice={choice} success={success} />} />
+          <Route path="/assentos/:idSessao" element={<Seats choice={choice} setChoice={setChoice} />} />
+          <Route path="/sucesso" element={<Success setChoice={setChoice} choice={choice} />} />
         </Routes>
         <Footer choice={choice} />
       </BrowserRouter>

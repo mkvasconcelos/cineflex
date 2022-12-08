@@ -29,7 +29,6 @@ const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 20px 0 10px;
-
     div{
         width: 145px;
         height: 209px;
@@ -41,11 +40,9 @@ const Container = styled.div`
         align-items: center;
         margin: 10px 10px 10px 10px;
     }
-
     img{
         width: 129px;
         height: 193px;
         cursor: pointer;
     }
 `
-

@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ContainerButton, ContainerLink } from "./StyledComponents";
 
-export default function Success({ setChoice, choice, success }) {
+export default function Success({ setChoice, choice }) {
     const { title } = choice.movie;
-    if (!success) {
+    if (!choice.success) {
         return <p>Loading...</p>;
     }
 
@@ -24,7 +24,7 @@ export default function Success({ setChoice, choice, success }) {
                 <p>Nome: {choice.buyer}</p>
                 <p>CPF: {choice.document.slice(0, 3) + "." + choice.document.slice(3, 6) + "." + choice.document.slice(6, 9) + "-" + choice.document.slice(9, 11)}</p>
             </div>
-            <ContainerLink to="/" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "" }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
+            <ContainerLink to="/" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
     )
 }
@@ -45,24 +45,4 @@ const Container = styled.div`
     p{
         margin-bottom: 5px;
     }
-`
-
-const ContainerButton = styled.button`
-    background: #E8833A;
-    border: none;
-    text-decoration: none;
-    border-radius: 3px;
-    margin: auto auto 30px auto;
-    width: 225px;
-    height: 42px;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color:#FFFFFF;
-`
-
-const ContainerLink = styled(Link)`
-    text-decoration: none;
 `
