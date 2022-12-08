@@ -16,6 +16,7 @@ export default function App() {
   const [chosenSeats, setChosenSeats] = useState([]);
   const [buyer, setBuyer] = useState("");
   const [document, setDocument] = useState("");
+  const [success, setSuccess] = useState(false);
 
   return (
     <>
@@ -26,8 +27,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Movies setChosenMovie={setChosenMovie} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions setChosenDay={setChosenDay} setChosenSession={setChosenSession} />} />
-          <Route path="/assentos/:idSessao" element={<Seats buyer={buyer} setBuyer={setBuyer} document={document} setDocument={setDocument} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} />} />
-          <Route path="/sucesso" element={<Success setChosenMovie={setChosenMovie} chosenMovie={chosenMovie} setChosenDay={setChosenDay} chosenDay={chosenDay} setChosenSession={setChosenSession} chosenSession={chosenSession} setChosenSeats={setChosenSeats} chosenSeats={chosenSeats} setBuyer={setBuyer} buyer={buyer} setDocument={setDocument} document={document} />} />
+          <Route path="/assentos/:idSessao" element={<Seats buyer={buyer} setBuyer={setBuyer} document={document} setDocument={setDocument} chosenSeats={chosenSeats} setChosenSeats={setChosenSeats} setSuccess={setSuccess} />} />
+          <Route path="/sucesso" element={<Success setChosenMovie={setChosenMovie} chosenMovie={chosenMovie} setChosenDay={setChosenDay} chosenDay={chosenDay} setChosenSession={setChosenSession} chosenSession={chosenSession} setChosenSeats={setChosenSeats} chosenSeats={chosenSeats} setBuyer={setBuyer} buyer={buyer} setDocument={setDocument} document={document} success={success} />} />
         </Routes>
         <Footer chosenMovie={chosenMovie} chosenDay={chosenDay} chosenSession={chosenSession} chosenSeats={chosenSeats} />
       </BrowserRouter>

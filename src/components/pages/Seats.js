@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats, buyer, document }) {
+export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats, buyer, document, setSuccess }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
@@ -28,6 +28,17 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
             newListSelected[seat - 1] = true;
             setListSelected(newListSelected);
         }
+    }
+
+    function reserveSeats() {
+        const payload = {
+            ids: listSeats,
+            name: buyer,
+            cpf: document
+        }
+        const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
+        res.then(res => { console.log(res.data); setSuccess(true) })
+        res.catch(err => console.log(err.res.data))
     }
     if (listSeats.length === 0) {
         return <p>Loading...</p>;
@@ -59,7 +70,7 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
                 <p>CPF do comprador:</p>
                 <input onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setDocument(e.target.value)} placeholder="Digite seu CPF..."></input>
             </ContainerInputs>
-            <LinkReserve to="/sucesso"><ContainerButton disabled={((buyer === '' || document.length !== 11 || chosenSeats.length === 0) && true)
+            <LinkReserve to="/sucesso"><ContainerButton onClick={() => reserveSeats()} disabled={((buyer === '' || document.length !== 11 || chosenSeats.length === 0) && true)
             }>Reservar assento(s)</ContainerButton></LinkReserve>
         </Container >
     )

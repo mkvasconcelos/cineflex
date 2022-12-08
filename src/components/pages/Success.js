@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Success({ setChosenMovie, setChosenDay, setChosenSession, setChosenSeats, setBuyer, setDocument, chosenMovie, chosenDay, chosenSession, chosenSeats, buyer, document }) {
+export default function Success({ setChosenMovie, setChosenDay, setChosenSession, setChosenSeats, setBuyer, setDocument, chosenMovie, chosenDay, chosenSession, chosenSeats, buyer, document, success }) {
     const { title } = chosenMovie;
-    if (chosenSeats.length === 0) {
+    if (!success) {
         return <p>Loading...</p>;
     }
 

@@ -16,7 +16,7 @@ export default function Movies({ setChosenMovie }) {
     }
     return (
         <Container>
-            {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => { setChosenMovie(i) }}><img src={i.posterURL} key={i.id} alt={i.title}></img></Link>)}
+            {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => { setChosenMovie(i) }}><div><img src={i.posterURL} key={i.id} alt={i.title}></img></div></Link>)}
         </Container>
     )
 }
@@ -25,12 +25,24 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 0 20px;
+    justify-content: center;
+    margin: 0 20px 0 10px;
+
+    div{
+        width: 145px;
+        height: 209px;
+        background: #FFFFFF;
+        box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 10px 10px 10px;
+    }
 
     img{
         width: 129px;
         height: 193px;
-        margin: 18px;
         cursor: pointer;
     }
 `
