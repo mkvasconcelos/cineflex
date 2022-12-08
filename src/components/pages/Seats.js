@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSeats, buyer, document, setSuccess }) {
+export default function Seats({ setSuccess, choice, setChoice }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
@@ -14,16 +14,16 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
     }, []);
     function getSeats(seat, available) {
         if (!available) { alert("Esse assento não está disponível"); return };
-        if (chosenSeats.includes(seat)) {
-            const newChosenSeats = [...chosenSeats]
-            newChosenSeats.splice(chosenSeats.indexOf(seat), 1);
-            setChosenSeats(newChosenSeats);
+        if (choice.seats.includes(seat)) {
+            const newChosenSeats = [...choice.seats]
+            newChosenSeats.splice(choice.seats.indexOf(seat), 1);
+            setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
             const newListSelected = [...listSelected];
             newListSelected[seat - 1] = false;
             setListSelected(newListSelected);
         } else {
-            const newChosenSeats = [...chosenSeats, seat];
-            setChosenSeats(newChosenSeats);
+            const newChosenSeats = [...choice.seats, seat];
+            setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
             const newListSelected = [...listSelected];
             newListSelected[seat - 1] = true;
             setListSelected(newListSelected);
@@ -33,8 +33,8 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
     function reserveSeats() {
         const payload = {
             ids: listSeats,
-            name: buyer,
-            cpf: document
+            name: choice.buyer,
+            cpf: choice.document
         }
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
         res.then(res => { console.log(res.data); setSuccess(true) })
@@ -66,11 +66,11 @@ export default function Seats({ setBuyer, setDocument, chosenSeats, setChosenSea
             </ContainerButtons>
             <ContainerInputs>
                 <p>Nome do comprador:</p>
-                <input onChange={(e) => setBuyer(e.target.value)} placeholder="Digite seu nome..."></input>
+                <input onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
-                <input onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setDocument(e.target.value)} placeholder="Digite seu CPF..."></input>
+                <input onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
             </ContainerInputs>
-            <LinkReserve to="/sucesso"><ContainerButton onClick={() => reserveSeats()} disabled={((buyer === '' || document.length !== 11 || chosenSeats.length === 0) && true)
+            <LinkReserve to="/sucesso"><ContainerButton onClick={() => reserveSeats()} disabled={((choice.buyer === '' || choice.document.length !== 11 || choice.seats.length === 0) && true)
             }>Reservar assento(s)</ContainerButton></LinkReserve>
         </Container >
     )

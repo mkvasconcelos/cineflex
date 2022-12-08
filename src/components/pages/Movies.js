@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Movies({ setChosenMovie }) {
+export default function Movies({ setChoice }) {
     const [listMovies, setListMovies] = useState([]);
     useEffect(() => {
         const res = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
@@ -16,7 +16,9 @@ export default function Movies({ setChosenMovie }) {
     }
     return (
         <Container>
-            {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => { setChosenMovie(i) }}><div><img src={i.posterURL} key={i.id} alt={i.title}></img></div></Link>)}
+            {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => {
+                setChoice(existingValues => ({ ...existingValues, movie: i }))
+            }}><div><img src={i.posterURL} key={i.id} alt={i.title}></img></div></Link>)}
         </Container>
     )
 }

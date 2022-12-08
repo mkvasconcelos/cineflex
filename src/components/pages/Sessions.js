@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Sessions({ setChosenDay, setChosenSession }) {
+export default function Sessions({ setChoice }) {
     const { idFilme } = useParams();
     const [listSessions, setListSessions] = useState([]);
     useEffect(() => {
@@ -21,7 +21,9 @@ export default function Sessions({ setChosenDay, setChosenSession }) {
                 <ContainerSession key={s.id}>
                     <p>{s.weekday} - {s.date}</p>
                     <div>
-                        {s.showtimes.map(t => <Link to={`/assentos/${t.id}`}><button key={t.id} onClick={() => { setChosenDay(s); setChosenSession(t) }}>{t.name}</button></Link>)}
+                        {s.showtimes.map(t => <Link to={`/assentos/${t.id}`}><button key={t.id} onClick={() => {
+                            setChoice(existingValues => ({ ...existingValues, day: s, session: t }))
+                        }}>{t.name}</button></Link>)}
                     </div>
                 </ContainerSession>)}
         </Container>

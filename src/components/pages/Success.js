@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Success({ setChosenMovie, setChosenDay, setChosenSession, setChosenSeats, setBuyer, setDocument, chosenMovie, chosenDay, chosenSession, chosenSeats, buyer, document, success }) {
-    const { title } = chosenMovie;
+export default function Success({ setChoice, choice, success }) {
+    const { title } = choice.movie;
     if (!success) {
         return <p>Loading...</p>;
     }
@@ -13,18 +13,18 @@ export default function Success({ setChosenMovie, setChosenDay, setChosenSession
             <div>
                 <h1>Filme e sessão</h1>
                 <p>{title}</p>
-                <p>{chosenDay.date} {chosenSession.name}</p>
+                <p>{choice.day.date} {choice.session.name}</p>
             </div>
             <div>
                 <h1>Ingressos</h1>
-                {chosenSeats.map(s => <p>Assento {s}</p>)}
+                {choice.seats.map(s => <p>Assento {s}</p>)}
             </div>
             <div>
                 <h1>Comprador</h1>
-                <p>Nome: {buyer}</p>
-                <p>CPF: {document.slice(0, 3) + "." + document.slice(3, 6) + "." + document.slice(6, 9) + "-" + document.slice(9, 11)}</p>
+                <p>Nome: {choice.buyer}</p>
+                <p>CPF: {choice.document.slice(0, 3) + "." + choice.document.slice(3, 6) + "." + choice.document.slice(6, 9) + "-" + choice.document.slice(9, 11)}</p>
             </div>
-            <ContainerLink to="/" onClick={() => { setChosenMovie(''); setChosenDay(''); setChosenSession(''); setChosenSeats([]); setBuyer(''); setDocument('') }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
+            <ContainerLink to="/" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "" }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
     )
 }
