@@ -37,7 +37,7 @@ export default function Seats({ choice, setChoice }) {
             cpf: choice.document
         }
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
-        res.then(res => { setChoice(existingValues => ({ ...existingValues, success: true })) })
+        res.then(() => { setChoice(existingValues => ({ ...existingValues, success: true })) })
         res.catch(err => console.log(err.res.data))
     }
     if (listSeats.length === 0) {
@@ -46,7 +46,7 @@ export default function Seats({ choice, setChoice }) {
     return (
         <Container >
             <div>
-                {listSeats.seats.map(s => <ContainerSeats key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
+                {listSeats.seats.map(s => <ContainerSeats data-test="seat" key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
                     getSeats(s.name, s.isAvailable)
                 }}>{s.name}</ContainerSeats>)}
             </div>
@@ -66,11 +66,11 @@ export default function Seats({ choice, setChoice }) {
             </ContainerButtons>
             <ContainerInputs>
                 <p>Nome do comprador:</p>
-                <input onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
+                <input data-test="client-name" onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
-                <input onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
+                <input data-test="client-cpf" onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
             </ContainerInputs>
-            <ContainerLink to="/sucesso"><ContainerButton onClick={() => reserveSeats()} disabled={((choice.buyer === '' || choice.document.length !== 11 || choice.seats.length === 0) && true)
+            <ContainerLink to="/sucesso"><ContainerButton data-test="book-seat-btn" onClick={() => reserveSeats()} disabled={((choice.buyer === '' || choice.document.length !== 11 || choice.seats.length === 0) && true)
             }>Reservar assento(s)</ContainerButton></ContainerLink>
         </Container >
     )

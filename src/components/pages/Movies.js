@@ -18,7 +18,7 @@ export default function Movies({ setChoice }) {
         <Container>
             {listMovies.map(i => <Link to={`/sessoes/${i.id}`} key={i.id} onClick={() => {
                 setChoice(existingValues => ({ ...existingValues, movie: i }))
-            }}><div><img src={i.posterURL} key={i.id} alt={i.title}></img></div></Link>)}
+            }}><div data-test="movie"><img src={i.posterURL} key={i.id} alt={i.title}></img></div></Link>)}
         </Container>
     )
 }

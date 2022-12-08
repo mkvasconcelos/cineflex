@@ -8,7 +8,7 @@ export default function Footer({ choice }) {
     const session = choice.day === "" ? "" : `${choice.day.weekday} - ${choice.session.name}`;
     const { posterURL, title } = choice.movie;
     return (
-        <Container>
+        <Container data-test="footer">
             <div>
                 <img src={posterURL} alt={title}></img>
             </div>

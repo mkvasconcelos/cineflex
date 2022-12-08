@@ -18,10 +18,10 @@ export default function Sessions({ setChoice }) {
     return (
         <Container>
             {listSessions.map(s =>
-                <ContainerSession key={s.id}>
+                <ContainerSession data-test="movie-day" key={s.id}>
                     <p>{s.weekday} - {s.date}</p>
                     <div>
-                        {s.showtimes.map(t => <Link key={t.id} to={`/assentos/${t.id}`}><button onClick={() => {
+                        {s.showtimes.map(t => <Link key={t.id} to={`/assentos/${t.id}`}><button data-test="showtime" onClick={() => {
                             setChoice(existingValues => ({ ...existingValues, day: s, session: t }))
                         }}>{t.name}</button></Link>)}
                     </div>

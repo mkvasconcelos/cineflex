@@ -10,21 +10,21 @@ export default function Success({ setChoice, choice }) {
 
     return (
         <Container >
-            <div>
+            <div data-test="movie-info">
                 <h1>Filme e sessão</h1>
                 <p>{title}</p>
                 <p>{choice.day.date} {choice.session.name}</p>
             </div>
-            <div>
+            <div data-test="seats-info">
                 <h1>Ingressos</h1>
                 {choice.seats.map(s => <p key={s}>Assento {s}</p>)}
             </div>
-            <div>
+            <div data-test="client-info">
                 <h1>Comprador</h1>
                 <p>Nome: {choice.buyer}</p>
                 <p>CPF: {choice.document.slice(0, 3) + "." + choice.document.slice(3, 6) + "." + choice.document.slice(6, 9) + "-" + choice.document.slice(9, 11)}</p>
             </div>
-            <ContainerLink to="/" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
+            <ContainerLink to="/" data-test="go-home-btn" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
     )
 }
