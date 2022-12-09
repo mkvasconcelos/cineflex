@@ -16,7 +16,7 @@ export default function App() {
     <>
       <GlobalStyle />
       <BrowserRouter>
-        <Header setChoice={setChoice} />
+        <Header />
         <SubHeader />
         <Routes>
           <Route path="/" element={<Movies setChoice={setChoice} />} />

@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { BsArrowLeft } from 'react-icons/bs';
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function Header({ setChoice }) {
+export default function Header() {
     const location = useLocation();
     const navigate = useNavigate();
     return (
         <Container>
-            <div data-test="go-home-btn" onClick={() => { navigate('../'); setChoice({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false }) }}>
+            <div data-test="go-home-btn" onClick={() => { navigate(-1) }}>
                 {location.pathname !== "/" && <BsArrowLeft />}
             </div>
             CINEFLEX
@@ -26,7 +26,6 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     div{
         position: absolute;
         left: 10px;

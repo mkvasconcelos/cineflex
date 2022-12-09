@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 export default function Footer({ choice }) {
     const location = useLocation();
     if (location.pathname === "/" || location.pathname.includes("/sucesso")) return;
-    const session = choice.day === "" ? "" : `${choice.day.weekday} - ${choice.session.name}`;
+    const session = !location.pathname.includes("/assentos") ? "" : `${choice.day.weekday} - ${choice.session.name}`;
     const { posterURL, title } = choice.movie;
     return (
         <Container data-test="footer">

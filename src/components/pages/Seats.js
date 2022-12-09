@@ -8,6 +8,7 @@ export default function Seats({ choice, setChoice }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
+    console.log(choice.buyer)
     useEffect(() => {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
@@ -65,10 +66,10 @@ export default function Seats({ choice, setChoice }) {
                 </div>
             </ContainerButtons>
             <ContainerInputs>
-                {/* {choice.seats.map(s =>
+                {/* {choice.seats.map((s, i) =>
                     <div key={s}> */}
                 <p>Nome do comprador:</p>
-                <input data-test="client-name" onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
+                <input data-test="client-name" value={choice.buyer} onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
                 <p>CPF do comprador:</p>
                 <input data-test="client-cpf" onKeyPress={(e) => !/[0-9]/.test(e.key) && e.preventDefault()} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
                 {/* </div>
