@@ -27,10 +27,10 @@ export default function Success({ setChoice, choice }) {
             <div data-test="client-info">
                 <h1>Comprador</h1>
                 {buyer.map((b, i) =>
-                    <>
+                    <div key={i}>
                         <p>Nome: {b}</p>
                         <p>CPF: {document[i].slice(0, 3) + "." + choice.document[i].slice(3, 6) + "." + choice.document[i].slice(6, 9) + "-" + choice.document[i].slice(9, 11)}</p>
-                    </>
+                    </div>
                 )}
             </div>
             <ContainerLink to="/" data-test="go-home-btn" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: [], document: [], success: false }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>

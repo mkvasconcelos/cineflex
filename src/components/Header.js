@@ -8,7 +8,7 @@ export default function Header() {
     const navigate = useNavigate();
     return (
         <Container>
-            <button data-test="go-home-btn" onClick={() => { navigate(-1) }}>
+            <button data-test="go-home-header-btn" onClick={() => { navigate(-1) }}>
                 {location.pathname !== "/" && <BsArrowLeft />}
             </button>
             CINEFLEX

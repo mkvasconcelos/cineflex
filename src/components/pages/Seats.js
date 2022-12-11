@@ -81,12 +81,12 @@ export default function Seats({ choice, setChoice }) {
             </ContainerButtons>
             <form onSubmit={reserveSeats}>
                 <ContainerInputs>
-                    {choice.seats.map((s) =>
+                    {choice.seats.map((s, i) =>
                         <div key={s}>
                             <label>Nome do comprador:</label>
-                            <input data-test="client-name" type="text" name={`${s}-buyer`} placeholder="Digite seu nome..."></input>
+                            <input data-test="client-name" type="text" name={`${s}-buyer`} value={choice.buyer[i]} placeholder="Digite seu nome..."></input>
                             <label>CPF do comprador:</label>
-                            <input data-test="client-cpf" type="text" pattern="\d*" name={`${s}-document`} placeholder="Digite seu CPF..." minLength="11" maxLength="11"></input>
+                            <input data-test="client-cpf" type="number" name={`${s}-document`} value={choice.document[i]} placeholder="Digite seu CPF..."></input>
                         </div>
                     )}
                 </ContainerInputs>
