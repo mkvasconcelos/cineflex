@@ -17,6 +17,7 @@ export default function Seats({ choice, setChoice }) {
     function getSeats(seat, available) {
         if (!available) { alert("Esse assento não está disponível"); return };
         if (choice.seats.includes(seat)) {
+            // console.log(confirm("Gostaria de remover o assento selecionado?"));
             const newChosenSeats = [...choice.seats]
             newChosenSeats.splice(choice.seats.indexOf(seat), 1);
             setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
@@ -42,11 +43,12 @@ export default function Seats({ choice, setChoice }) {
             nome: e.target[`${s}-buyer`].value,
             cpf: e.target[`${s}-document`].value
         }));
-        setChoice(existingValues => ({ ...existingValues, buyer: buyers, document: documents }))
+        setChoice(existingValues => ({ ...existingValues, buyer: buyers, document: documents }));
         const payload = {
-            ids: listSeats,
+            ids: choice.seats,
             compradores: compradores,
         }
+        console.log(payload);
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
         res.then(() => {
             setChoice(existingValues => ({ ...existingValues, success: true }));
