@@ -123,8 +123,8 @@ export default function Seats({ choice, setChoice }) {
             type="text"
             value={choice.buyer}
             onChange={(e) =>
-              setChoice((existingValues) => ({
-                ...existingValues,
+              setChoice((ev) => ({
+                ...ev,
                 buyer: e.target.value,
               }))
             }
@@ -138,8 +138,8 @@ export default function Seats({ choice, setChoice }) {
             pattern="[0-9]*"
             value={choice.document}
             onChange={(e) =>
-              setChoice((existingValues) => ({
-                ...existingValues,
+              setChoice((ev) => ({
+                ...ev,
                 document: e.target.value,
               }))
             }
