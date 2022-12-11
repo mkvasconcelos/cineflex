@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ContainerButton, ContainerLink } from "./StyledComponents";
 
 export default function Success({ setChoice, choice }) {
-  const { movie, day, session, seats, buyer, document } = choice;
+  const { movie, day, session, seats, buyer } = choice;
   if (!choice.success) {
     return (
       <img
@@ -29,11 +29,18 @@ export default function Success({ setChoice, choice }) {
       </div>
       <div data-test="client-info">
         <h1>Comprador</h1>
-        <p>Nome: {buyer}</p>
-        <p>
-          CPF:{" "}
-          {document.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4")}
-        </p>
+        {buyer.map((b) => (
+          <div>
+            <p>Nome: {b.name}</p>
+            <p>
+              CPF:{" "}
+              {b.document.replace(
+                /(\d{3})(\d{3})(\d{3})(\d{2})/g,
+                "$1.$2.$3-$4"
+              )}
+            </p>
+          </div>
+        ))}
       </div>
       <ContainerLink
         to="/"
@@ -45,7 +52,6 @@ export default function Success({ setChoice, choice }) {
             session: "",
             seats: [],
             buyer: [],
-            document: [],
             success: false,
           });
         }}

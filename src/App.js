@@ -15,8 +15,7 @@ export default function App() {
     day: "",
     session: "",
     seats: [],
-    buyer: "",
-    document: "",
+    buyer: [],
     success: false,
   });
 

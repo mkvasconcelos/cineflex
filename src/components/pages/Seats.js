@@ -14,6 +14,7 @@ export default function Seats({ choice, setChoice }) {
   const [listSelected, setListSelected] = useState([]);
   const [listSeatsId, setListSeatsId] = useState([]);
   const navigate = useNavigate();
+  const [state, setState] = useState({});
   useEffect(() => {
     const res = axios.get(
       `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
@@ -60,10 +61,22 @@ export default function Seats({ choice, setChoice }) {
       alert("Escolha pelo menos um assento.");
       return;
     }
+    const compradores = choice.seats.map((s, i) => ({
+      idAssento: listSeatsId[i],
+      nome: e.target[`${s}buyer`].value,
+      cpf: e.target[`${s}document`].value,
+    }));
+    const newBuyer = [...choice.buyer];
+    choice.seats.map((s) =>
+      newBuyer.push({
+        name: e.target[`${s}buyer`].value,
+        document: e.target[`${s}document`].value,
+      })
+    );
+    setChoice((ev) => ({ ...ev, buyer: newBuyer }));
     const payload = {
       ids: listSeatsId,
-      name: choice.buyer,
-      cpf: choice.document,
+      compradores: compradores,
     };
     const res = axios.post(
       `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`,
@@ -71,9 +84,12 @@ export default function Seats({ choice, setChoice }) {
     );
     res.then(() => {
       navigate("/sucesso");
-      setChoice((existingValues) => ({ ...existingValues, success: true }));
+      setChoice((ev) => ({ ...ev, success: true }));
     });
     res.catch((err) => console.log(err.res.data));
+  }
+  function handleChange(e) {
+    setState({ [e.target.name]: e.target.value });
   }
   if (listSeats.length === 0) {
     return (
@@ -116,35 +132,31 @@ export default function Seats({ choice, setChoice }) {
       </ContainerButtons>
       <form onSubmit={reserveSeats}>
         <ContainerInputs>
-          <label>Nome do comprador:</label>
-          <input
-            data-test="client-name"
-            type="text"
-            value={choice.buyer}
-            onChange={(e) =>
-              setChoice((ev) => ({
-                ...ev,
-                buyer: e.target.value,
-              }))
-            }
-            placeholder="Digite seu nome..."
-            required
-          ></input>
-          <label>CPF do comprador:</label>
-          <input
-            data-test="client-cpf"
-            type="text"
-            pattern="[0-9]{11}"
-            value={choice.document}
-            onChange={(e) =>
-              setChoice((ev) => ({
-                ...ev,
-                document: e.target.value,
-              }))
-            }
-            placeholder="Digite seu CPF..."
-            required
-          ></input>
+          {choice.seats.map((s) => (
+            <div key={s}>
+              <label>Nome do comprador:</label>
+              <input
+                data-test="client-name"
+                type="text"
+                name={`${s}buyer`}
+                onChange={handleChange}
+                value={state[`${s}buyer`]}
+                placeholder="Digite seu nome..."
+                required
+              ></input>
+              <label>CPF do comprador:</label>
+              <input
+                data-test="client-cpf"
+                type="text"
+                pattern="[0-9]{11}"
+                name={`${s}document`}
+                onChange={handleChange}
+                value={state[`${s}document`]}
+                placeholder="Digite seu CPF..."
+                required
+              ></input>
+            </div>
+          ))}
         </ContainerInputs>
         <ContainerButton data-test="book-seat-btn" type="submit" value="Submit">
           Reservar assento(s)
