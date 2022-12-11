@@ -12,7 +12,6 @@ export default function Success({ setChoice, choice }) {
     if (!choice.success) {
         return <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="loading-gif"></img>
     }
-
     return (
         <Container >
             <div data-test="movie-info">
@@ -26,12 +25,8 @@ export default function Success({ setChoice, choice }) {
             </div>
             <div data-test="client-info">
                 <h1>Comprador</h1>
-                {buyer.map((b, i) =>
-                    <div key={i}>
-                        <p>Nome: {b}</p>
-                        <p>CPF: {document[i].slice(0, 3) + "." + choice.document[i].slice(3, 6) + "." + choice.document[i].slice(6, 9) + "-" + choice.document[i].slice(9, 11)}</p>
-                    </div>
-                )}
+                <p>Nome: {buyer}</p>
+                <p>CPF: {document.slice(0, 3) + "." + choice.document.slice(3, 6) + "." + choice.document.slice(6, 9) + "-" + choice.document.slice(9, 11)}</p>
             </div>
             <ContainerLink to="/" data-test="go-home-btn" onClick={() => { setChoice({ movie: "", day: "", session: "", seats: [], buyer: [], document: [], success: false }) }}><ContainerButton>Voltar para Home</ContainerButton></ContainerLink>
         </Container >
