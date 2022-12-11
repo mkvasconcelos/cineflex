@@ -10,7 +10,7 @@ import Success from "./components/pages/Success";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: [], document: [], success: false });
+  const [choice, setChoice] = useState({ movie: "", day: "", session: "", seats: [], buyer: "", document: "", success: false });
 
   return (
     <>

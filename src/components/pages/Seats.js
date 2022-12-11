@@ -8,51 +8,51 @@ export default function Seats({ choice, setChoice }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
+    const [listSeatsId, setListSeatsId] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
         res.catch(err => console.log(err.res.data))
     }, [idSessao]);
-    function getSeats(seat, available) {
+    function getSeats(seat, available, seatNumber) {
         if (!available) { alert("Esse assento não está disponível"); return };
-        if (choice.seats.includes(seat)) {
+        if (choice.seats.includes(seatNumber)) {
             const newChosenSeats = [...choice.seats]
-            newChosenSeats.splice(choice.seats.indexOf(seat), 1);
+            const newChosenSeatsId = [...listSeatsId];
+            newChosenSeats.splice(choice.seats.indexOf(seatNumber), 1);
+            newChosenSeatsId.splice(listSeatsId.indexOf(seat), 1);
             setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
+            setListSeatsId(newChosenSeatsId);
             const newListSelected = [...listSelected];
-            newListSelected[seat - 1] = false;
+            newListSelected[seatNumber - 1] = false;
             setListSelected(newListSelected);
         } else {
-            const newChosenSeats = [...choice.seats, seat];
+            const newChosenSeats = [...choice.seats, seatNumber];
+            const newChosenSeatsId = [...listSeatsId, seat];
             setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
+            setListSeatsId(newChosenSeatsId);
             const newListSelected = [...listSelected];
-            newListSelected[seat - 1] = true;
+            newListSelected[seatNumber - 1] = true;
             setListSelected(newListSelected);
         }
     }
     function reserveSeats(e) {
         e.preventDefault();
-        const buyers = [...choice.buyer];
-        const documents = [...choice.document];
-        choice.seats.map((s) => buyers.push(e.target[`${s}-buyer`].value))
-        choice.seats.map((s) => documents.push(e.target[`${s}-document`].value))
-        const compradores = choice.seats.map((s) => ({
-            idAssento: s,
-            nome: e.target[`${s}-buyer`].value,
-            cpf: e.target[`${s}-document`].value
-        }));
-        setChoice(existingValues => ({ ...existingValues, buyer: buyers, document: documents }));
-        const payload = {
-            ids: choice.seats,
-            compradores: compradores,
+        if (choice.seats.length === 0) {
+            alert("Escolha pelo menos um assento.")
+            return
         }
-        console.log(payload);
+        const payload = {
+            ids: listSeatsId,
+            name: choice.buyer,
+            cpf: choice.document,
+        }
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
-        res.then(res => {
-            setChoice(existingValues => ({ ...existingValues, success: true }));
+        res.then(() => {
             navigate("/sucesso");
-        })
+            setChoice(existingValues => ({ ...existingValues, success: true }))
+        });
         res.catch(err => console.log(err.res.data))
     }
     if (listSeats.length === 0) {
@@ -61,8 +61,8 @@ export default function Seats({ choice, setChoice }) {
     return (
         <Container >
             <div>
-                {listSeats.seats.map(s => <ContainerSeats data-test="seat" key={s.id} available={s.isAvailable} selected={listSelected[s.id - 1]} onClick={() => {
-                    getSeats(s.id, s.isAvailable)
+                {listSeats.seats.map(s => <ContainerSeats data-test="seat" key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
+                    getSeats(s.id, s.isAvailable, s.name)
                 }}>{s.name}</ContainerSeats>)}
             </div>
             <ContainerButtons>
@@ -81,14 +81,10 @@ export default function Seats({ choice, setChoice }) {
             </ContainerButtons>
             <form onSubmit={reserveSeats}>
                 <ContainerInputs>
-                    {choice.seats.map((s, i) =>
-                        <div key={s}>
-                            <label>Nome do comprador:</label>
-                            <input data-test="client-name" type="text" name={`${s}-buyer`} value={choice.buyer[i]} placeholder="Digite seu nome..."></input>
-                            <label>CPF do comprador:</label>
-                            <input data-test="client-cpf" type="number" name={`${s}-document`} value={choice.document[i]} placeholder="Digite seu CPF..."></input>
-                        </div>
-                    )}
+                    <label>Nome do comprador:</label>
+                    <input data-test="client-name" type="text" value={choice.buyer} onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..." required></input>
+                    <label>CPF do comprador:</label>
+                    <input data-test="client-cpf" type="text" pattern="[0-9]*" value={choice.document} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..." minLength="11" maxLength="11" required></input>
                 </ContainerInputs>
                 <ContainerButton data-test="book-seat-btn" type="submit" value="Submit">Reservar assento(s)</ContainerButton>
             </form>
