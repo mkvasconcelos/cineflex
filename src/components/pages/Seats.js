@@ -17,7 +17,6 @@ export default function Seats({ choice, setChoice }) {
     function getSeats(seat, available) {
         if (!available) { alert("Esse assento não está disponível"); return };
         if (choice.seats.includes(seat)) {
-            // console.log(confirm("Gostaria de remover o assento selecionado?"));
             const newChosenSeats = [...choice.seats]
             newChosenSeats.splice(choice.seats.indexOf(seat), 1);
             setChoice(existingValues => ({ ...existingValues, seats: newChosenSeats }));
@@ -50,21 +49,20 @@ export default function Seats({ choice, setChoice }) {
         }
         console.log(payload);
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
-        res.then(() => {
+        res.then(res => {
             setChoice(existingValues => ({ ...existingValues, success: true }));
             navigate("/sucesso");
         })
         res.catch(err => console.log(err.res.data))
     }
-
     if (listSeats.length === 0) {
         return <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="loading-gif"></img>
     }
     return (
         <Container >
             <div>
-                {listSeats.seats.map(s => <ContainerSeats data-test="seat" key={s.id} available={s.isAvailable} selected={listSelected[s.name - 1]} onClick={() => {
-                    getSeats(s.name, s.isAvailable)
+                {listSeats.seats.map(s => <ContainerSeats data-test="seat" key={s.id} available={s.isAvailable} selected={listSelected[s.id - 1]} onClick={() => {
+                    getSeats(s.id, s.isAvailable)
                 }}>{s.name}</ContainerSeats>)}
             </div>
             <ContainerButtons>
