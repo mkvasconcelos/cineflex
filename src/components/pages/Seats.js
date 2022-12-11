@@ -34,7 +34,9 @@ export default function Seats({ choice, setChoice }) {
         const answer = window.confirm(
           "Você realmente gostaria de remover este assento?"
         );
-        if (!answer) return;
+        if (!answer) {
+          return;
+        }
       }
       const newChosenSeats = [...choice.seats];
       const newChosenSeatsId = [...listSeatsId];
