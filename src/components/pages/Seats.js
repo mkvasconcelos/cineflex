@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { ContainerButton, ContainerLink, ContainerInputs, ContainerSeats } from "./StyledComponents";
+import { ContainerButton, ContainerInputs, ContainerSeats } from "./StyledComponents";
 
 export default function Seats({ choice, setChoice }) {
     const { idSessao } = useParams();
     const [listSeats, setListSeats] = useState([]);
     const [listSelected, setListSelected] = useState([]);
-    const [listBuyer, setListBuyer] = useState([]);
-    console.log(listBuyer);
+    const navigate = useNavigate();
     useEffect(() => {
         const res = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         res.then(res => { setListSeats(res.data); setListSelected(new Array(res.data.seats.length).fill(false)); })
@@ -32,16 +31,30 @@ export default function Seats({ choice, setChoice }) {
             setListSelected(newListSelected);
         }
     }
-    function reserveSeats() {
+    function reserveSeats(e) {
+        e.preventDefault();
+        const buyers = [...choice.buyer];
+        const documents = [...choice.document];
+        choice.seats.map((s) => buyers.push(e.target[`${s}-buyer`].value))
+        choice.seats.map((s) => documents.push(e.target[`${s}-document`].value))
+        const compradores = choice.seats.map((s) => ({
+            idAssento: s,
+            nome: e.target[`${s}-buyer`].value,
+            cpf: e.target[`${s}-document`].value
+        }));
+        setChoice(existingValues => ({ ...existingValues, buyer: buyers, document: documents }))
         const payload = {
             ids: listSeats,
-            name: choice.buyer,
-            cpf: choice.document
+            compradores: compradores,
         }
         const res = axios.post(`https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`, payload);
-        res.then(() => { setChoice(existingValues => ({ ...existingValues, success: true })) })
+        res.then(() => {
+            setChoice(existingValues => ({ ...existingValues, success: true }));
+            navigate("/sucesso");
+        })
         res.catch(err => console.log(err.res.data))
     }
+
     if (listSeats.length === 0) {
         return <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921" alt="loading-gif"></img>
     }
@@ -66,18 +79,19 @@ export default function Seats({ choice, setChoice }) {
                     <p>Indisponível</p>
                 </div>
             </ContainerButtons>
-            <ContainerInputs>
-                {choice.seats.map((s) =>
-                    <div key={s}>
-                        <p>Nome do comprador:</p>
-                        <input data-test="client-name" type="text" value={choice.buyer} onChange={(e) => setChoice(existingValues => ({ ...existingValues, buyer: e.target.value }))} placeholder="Digite seu nome..."></input>
-                        <p>CPF do comprador:</p>
-                        <input data-test="client-cpf" type="number" value={choice.document} onChange={(e) => setChoice(existingValues => ({ ...existingValues, document: e.target.value }))} placeholder="Digite seu CPF..."></input>
-                    </div>
-                )}
-            </ContainerInputs>
-            <ContainerLink to="/sucesso"><ContainerButton data-test="book-seat-btn" onClick={() => reserveSeats()} disabled={((choice.buyer === '' || choice.document.length !== 11 || choice.seats.length === 0) && true)
-            }>Reservar assento(s)</ContainerButton></ContainerLink>
+            <form onSubmit={reserveSeats}>
+                <ContainerInputs>
+                    {choice.seats.map((s) =>
+                        <div key={s}>
+                            <label>Nome do comprador:</label>
+                            <input data-test="client-name" type="text" name={`${s}-buyer`} placeholder="Digite seu nome..."></input>
+                            <label>CPF do comprador:</label>
+                            <input data-test="client-cpf" type="text" pattern="\d*" name={`${s}-document`} placeholder="Digite seu CPF..." minLength="11" maxLength="11"></input>
+                        </div>
+                    )}
+                </ContainerInputs>
+                <ContainerButton data-test="book-seat-btn" type="submit" value="Submit">Reservar assento(s)</ContainerButton>
+            </form>
         </Container >
     )
 }

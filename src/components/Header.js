@@ -8,9 +8,9 @@ export default function Header() {
     const navigate = useNavigate();
     return (
         <Container>
-            <div data-test="go-home-btn" onClick={() => { navigate(-1) }}>
+            <button data-test="go-home-btn" onClick={() => { navigate(-1) }}>
                 {location.pathname !== "/" && <BsArrowLeft />}
-            </div>
+            </button>
             CINEFLEX
         </Container>
     )
@@ -26,12 +26,14 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    div{
+    button{
         position: absolute;
         left: 10px;
         top: 15px;
         font-size: 37px;
         color: black;
         cursor: pointer;
+        background-color: transparent;
+        border: none;
     }
 `
