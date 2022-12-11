@@ -20,7 +20,6 @@ export default function Seats({ choice, setChoice }) {
     );
     res.then((res) => {
       setListSeats(res.data);
-      setListSelected(new Array(res.data.seats.length).fill(false));
     });
     res.catch((err) => console.log(err.res.data));
   }, [idSessao]);
