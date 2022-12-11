@@ -164,6 +164,7 @@ const Container = styled.div`
     height: 26px;
     justify-content: center;
     align-items: center;
+    text-align: center;
     border-radius: 12px;
     color: #000000;
     font-size: 11px;

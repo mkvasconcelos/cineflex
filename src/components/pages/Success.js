@@ -3,9 +3,6 @@ import styled from "styled-components";
 import { ContainerButton, ContainerLink } from "./StyledComponents";
 
 export default function Success({ setChoice, choice }) {
-  // const title = choice.movie.title;
-  // const day = choice.day.date;
-  // const session = choice.session.name;
   const { movie, day, session, seats, buyer, document } = choice;
   if (!choice.success) {
     return (
