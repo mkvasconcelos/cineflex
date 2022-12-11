@@ -30,6 +30,12 @@ export default function Seats({ choice, setChoice }) {
       return;
     }
     if (choice.seats.includes(seatNumber)) {
+      if (state[`${seatNumber}buyer`] || state[`${seatNumber}document`]) {
+        const answer = window.confirm(
+          "Você realmente gostaria de remover este assento?"
+        );
+        if (!answer) return;
+      }
       const newChosenSeats = [...choice.seats];
       const newChosenSeatsId = [...listSeatsId];
       newChosenSeats.splice(choice.seats.indexOf(seatNumber), 1);
@@ -76,7 +82,7 @@ export default function Seats({ choice, setChoice }) {
     setChoice((ev) => ({ ...ev, buyer: newBuyer }));
     const payload = {
       ids: listSeatsId,
-      compradores: compradores,
+      compradores,
     };
     const res = axios.post(
       `https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many`,
