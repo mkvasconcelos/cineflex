@@ -135,7 +135,7 @@ export default function Seats({ choice, setChoice }) {
           <input
             data-test="client-cpf"
             type="text"
-            pattern="[0-9]*"
+            pattern="[0-9]{11}"
             value={choice.document}
             onChange={(e) =>
               setChoice((ev) => ({
@@ -144,8 +144,6 @@ export default function Seats({ choice, setChoice }) {
               }))
             }
             placeholder="Digite seu CPF..."
-            minLength="11"
-            maxLength="11"
             required
           ></input>
         </ContainerInputs>

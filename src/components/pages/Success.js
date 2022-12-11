@@ -3,12 +3,10 @@ import styled from "styled-components";
 import { ContainerButton, ContainerLink } from "./StyledComponents";
 
 export default function Success({ setChoice, choice }) {
-  const title = choice.movie.title;
-  const day = choice.day.date;
-  const session = choice.session.name;
-  const seats = choice.seats;
-  const buyer = choice.buyer;
-  const document = choice.document;
+  // const title = choice.movie.title;
+  // const day = choice.day.date;
+  // const session = choice.session.name;
+  const { movie, day, session, seats, buyer, document } = choice;
   if (!choice.success) {
     return (
       <img
@@ -21,9 +19,9 @@ export default function Success({ setChoice, choice }) {
     <Container>
       <div data-test="movie-info">
         <h1>Filme e sessão</h1>
-        <p>{title}</p>
+        <p>{movie.title}</p>
         <p>
-          {day} {session}
+          {day.date} {session.name}
         </p>
       </div>
       <div data-test="seats-info">
@@ -37,13 +35,7 @@ export default function Success({ setChoice, choice }) {
         <p>Nome: {buyer}</p>
         <p>
           CPF:{" "}
-          {document.slice(0, 3) +
-            "." +
-            choice.document.slice(3, 6) +
-            "." +
-            choice.document.slice(6, 9) +
-            "-" +
-            choice.document.slice(9, 11)}
+          {document.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4")}
         </p>
       </div>
       <ContainerLink
